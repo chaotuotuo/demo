@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>indexedDB</title>
+	<link rel="stylesheet" href="indexedDB.css">
+</head>
+<body>
+	<div>
+		<fieldset>
+			<legend>新闻信息</legend>
+			<p>
+				<label>标题: <input type="text"></label>
+			</p>
+			<p>
+				<label>时间: <input type="date"></label>
+			</p>
+			<p>
+				<label>图片: <input type="file"></label>
+			</p>
+			<p>
+				<label>内容: <textarea cols="30" rows="10"></textarea></label>
+			</p>
+		</fieldset><br>
+		<p>
+			<button id="submit">提交</button>
+			<button id="getData">获取</button>
+		</p>
+	</div>
+	<ul id="news">
+		<!-- <li>
+			<h4>title<span class="time"> -<i>2017.12.10</i></span></h4>
+			<p>content</p>
+			<img src="../image/17457200320170112145923014_640.jpg" alt="">
+		</li> -->
+	</ul>
+	<ul id="newInfo"></ul>
+
+	<script src="indexedDB.js"></script>
+	<script>
+		var dbName = "test",
+			objectStore = "project",
+			inputs = document.getElementsByTagName("input"),
+			textArea = document.querySelector("textarea"),
+			eNews = document.getElementById("news");
+		var db = new IndexedDB({
+								dbNameame:dbName,
+								version:1,
+								objectStore:objectStore,
+								keyPath:{keyPath:"id",autoIncrement:true},
+								dbIndex:{title:"title",time:"time",img:"img",content:"content"}
+							});
+
+		document.getElementById("submit").addEventListener("click",function(){
+
+			var imgFile = inputs[2].files[0];
+			imgFile&&(function(){
+				var render = new FileReader();
+
+				render.readAsDataURL(imgFile);
+
+				render.onload = function(event){
+					db.addItem({
+						objectStore:objectStore,
+						type:"readwrite",
+						item:{
+							title:inputs[0].value,
+							time:inputs[1].value,
+							img:event.target.result,
+							content:textArea.value
+						},
+						callBack:function(event){
+							console.log("add success");
+						}
+					});
+				}
+			})();
+		},false)
+
+		//获取数据库数据
+		document.getElementById("getData").addEventListener("click",function(){
+
+			eNews.innerHTML = "";
+			db.getItems({
+				objectStore:objectStore,
+				type:"readwrite",
+				callBackData:dealData
+			});
+		})
+
+		//数据处理
+		function dealData(result){
+					console.log(result);
+
+					var oLi = document.createElement("li"),
+						oH4 = document.createElement("h4"),
+						oSpan = document.createElement("span"),
+						oI = document.createElement("i"),
+						oImg = document.createElement("img"),
+						oP = document.createElement("p");
+
+						oSpan.classList.add("time");
+						oSpan.innerText = "-";
+						oI.innerText = result.time;
+						oImg.src = result.img;
+						oP.innerText = result.content;
+						oH4.innerText = result.title;
+
+						oSpan.appendChild(oI);
+						oH4.appendChild(oSpan);
+						oLi.appendChild(oH4);
+						oLi.appendChild(oP);
+						oLi.appendChild(oImg);
+
+						eNews.appendChild(oLi);
+				}
+	</script>
+</body>
+</html>

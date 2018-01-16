@@ -1,0 +1,48 @@
+body>div{
+	display: inline-block;
+	vertical-align: top;
+
+	>fieldset{
+		display: inline-block;
+		vertical-align: top;
+		margin-left: auto;
+		border: 1px solid #ccc;
+	}
+
+	>p{
+		text-align: right;
+	}
+}
+#news{
+	display: inline-block;
+	width: 500px;
+
+	>li{
+		background-color: #f1eded;
+		padding: 3px;
+
+		>h4{
+			margin: 0;
+			font-weight: 500;
+
+			>.time{
+				font-size: 12px;
+				font-weight: 500;
+			}
+		}
+
+		>p{
+			margin: 0;
+			font-weight: lighter;
+		}
+
+		>img{
+			width:50%;
+			margin-left:25%;
+		}
+	}
+
+	>li:not(:first-child){
+		margin-top: 2px;
+	}
+}

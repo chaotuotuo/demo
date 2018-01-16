@@ -1,0 +1,2 @@
+body>div{display:inline-block;vertical-align:top}body>div>fieldset{display:inline-block;vertical-align:top;margin-left:auto;border:1px solid #ccc}body>div>p{text-align:right}#news{display:inline-block;width:500px}#news>li{background-color:#f1eded;padding:3px}#news>li>h4{margin:0;font-weight:500}#news>li>h4>.time{font-size:12px;font-weight:500}#news>li>p{margin:0;font-weight:lighter}#news>li>img{width:50%;margin-left:25%}#news>li:not(:first-child){margin-top:2px}
+/*# sourceMappingURL=indexedDB.css.map */
